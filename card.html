@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Card</title>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #2c3e50; /* Dark background color for sophistication */
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .intro-text {
+      font-family: 'Georgia', serif;
+      font-size: 24px;
+      color: #ecf0f1;
+      margin-bottom: 20px;
+      transition: opacity 0.5s;
+    }
+
+    .christmas-card {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      transform-style: preserve-3d;
+      transform: perspective(2500px);
+      transition: 3s;
+    }
+
+    input#open {
+      display: none;
+    }
+
+    .card-front {
+      position: relative;
+      background-color: #3498db; /* Blue color for the front of the card */
+      width: 400px;
+      height: 600px;
+      border: 5px solid #ecf0f1; /* White border for contrast */
+      overflow: hidden;
+      transform-origin: left;
+      box-shadow: inset 200px 40px 200px rgba(0, 0, 0, .13), 60px 0 100px rgba(0, 0, 0, 0.1);
+      transition: .3s;
+    }
+
+    .card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-inside {
+      position: absolute;
+      background-color: #3498db;
+      width: 400px;
+      height: 600px;
+      border: 5px solid #ecf0f1;
+      z-index: -1;
+      left: 0;
+      top: 0;
+      box-shadow: inset 200px 40px 200px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+      font-family: 'Georgia', serif; /* Use a serif font for a sophisticated feel */
+      font-size: 32px;
+      color: #ecf0f1;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .wishes {
+      font-family: 'Georgia', serif;
+      font-size: 18px;
+      color: #ecf0f1;
+      text-align: center;
+      margin: 20px;
+    }
+
+    .gift {
+      width: 100%;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bow {
+      width: 50px;
+      height: 50px;
+      background-color: #c0392b; /* Red color for the bow */
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .bow:before,
+    .bow:after {
+      content: '';
+      width: 25px;
+      height: 50px;
+      background-color: #c0392b;
+      position: absolute;
+      top: 0;
+    }
+
+    .bow:before {
+      left: 0;
+    }
+
+    .bow:after {
+      right: 0;
+    }
+
+    .open {
+      position: absolute;
+      width: 400px;
+      height: 600px;
+      left: 0;
+      top: 0;
+      background-color: transparent;
+      z-index: 6;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ecf0f1;
+      font-size: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    #open:checked ~ .card-front {
+      transform: rotateY(-155deg);
+      box-shadow: inset 200px 40px 200px rgba(0, 0, 0, .13), 60px 0 100px rgba(0, 0, 0, 0.1);
+    }
+
+    #open:checked ~ .card-front:before {
+      z-index: 5;
+    }
+
+    #open:checked ~ .intro-text {
+      opacity: 0;
+      pointer-events: none; /* Disable pointer events to prevent clicking on invisible text */
+    }
+
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      font-size: 2em;
+      line-height: 1;
+      color: #fff;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+
+    /* Styles for the "Let it snow!" button */
+    button {
+      background-color: #e74c3c; /* Red color for the button */
+      color: #ecf0f1;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #c0392b; /* Darker red on hover */
+    }
+
+  </style>
+</head>
+<body>
+  <div class="intro-text">Click Card to Open</div>
+  <div class="christmas-card">
+    <input id="open" type="checkbox">
+    <label class="open" for="open"></label>
+    <div class="card-front">
+      <img src="snow_man.png">
+    </div>
+    <div class="card-inside">
+      <div class="title">Merry Christmas Dad, Heather and Bella!</div>
+      <br>
+      <br>
+      <br>
+      <div class="wishes">Missing all of you and hope you're having a great Christmas! I actually forgot to mail your Christmas letter this week so I decided to make this one instead. 😅 Hope y'all like it.</div>
+      <div class="wishes">Lots of Love,</div>
+      <div class="wishes">Jonny</div>
+    </div>
+  </div>
+  <br>
+  <button onclick="showSnowfall()">Let it snow!</button>
+  <script>
+    function showSnowfall() {
+      const snowContainer = document.createElement('div');
+      snowContainer.className = 'snow-container';
+      
+      for (let i = 0; i < 100; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        snowflake.innerHTML = '❄';
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        snowflake.style.animationDuration = Math.random() * 2 + 3 + 's';
+        snowContainer.appendChild(snowflake);
+      }
+      
+      document.body.appendChild(snowContainer);
+  
+      // Slide down the Christmas card
+      const card = document.querySelector('.christmas-card');
+      card.style.transform = 'translateY(0)';
+    }
+  </script>
+</body>
+</html>
+
